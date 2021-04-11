@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Some test">
+    <test name="Regression1">
+        <classes>
+            <class name="AutomationSuite.Cart">
+            </class>
+        </classes>
+    </test><!--Regression1-->
+</suite><!--Some test-->
