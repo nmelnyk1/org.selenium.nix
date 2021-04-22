@@ -1,4 +1,4 @@
-package com.nix.pages;
+package com.nix.core.driver;
 
 public interface Constants {
      String browserName = "chrome";

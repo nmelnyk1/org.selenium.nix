@@ -2,45 +2,40 @@ package com.nix.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 public class HomePage extends BasePage {
 
-    public WebDriver driver;
+    private final By tShirtLocator = By.xpath("div[@class='product' and text()='H&M T-Shirt White']");
+    private final By cdSuckerLocator = By.xpath("div[@class='product' and text()='Charli XCX - Sucker CD']");
+    private final By iPadLocator = By.xpath("div[@class='product' and text()='iPad 4 Mini']");
+    private final By productLink = By.xpath(".//div[@class='product']");
+    //private final By productPrice = By.xpath(".//span[@class='price']");
 
-
-    private final By tShirt = By.xpath("/a[@class=\"title\" and text()=\"iPad 4 Mini\"]");
-    private final By cdSucker = By.xpath("/a[@class=\"title\" and text()=\"Charli XCX - Sucker CD\"]");
-    private final By iPad = By.xpath("/a[@class=\"title\" and text()=\"iPad 4 Mini\"]");
-
-    private final By cdSuckerLink = By.xpath(".//a[@href=\"#/product/3\"]");
-    private final By tShirtLink = By.xpath(".//a[@href=\"#/product/2\"]");
-    private final By iPadLink = By.xpath(".//a[@href=\"#/product/1\"]");
-
-
-    private final By tShirtPrice = By.xpath("//span[@class=\"price\" and  text()=\"$ 500.01\" ]");
-    private final By scSuckerPrice = By.xpath("//span[@class=\"price\" and  text()=\"$ 10.99\" ]");
-    private final By iPadPrice = By.xpath("//span[@class=\"price\" and  text()=\"$ 19.99\" ]");
-    private final HeaderComponent header;
-
-    public HomePage() {
-
-        this.header = new HeaderComponent();
+    public HomePage(WebDriver browserDriver) {
+        super(browserDriver);
     }
 
-    public void clickProduct() {
-        findElement(tShirt).findElement(tShirtLink).click();
-        findElement(iPad).findElement(iPadLink).click();
-        findElement(cdSucker).findElement(cdSuckerLink).click();
-    }
 
-    public HeaderComponent header() {
-        return this.header;
+    public List<WebElement> getProductNameLinks() {
+        wait.until(ExpectedConditions.elementToBeClickable(productLink));
+        List<WebElement> productLinks = browser.findElements(productLink);
+        return productLinks;
     }
-
-    public String getProduct() {
-        findElement(tShirt).getText();
-        return String.valueOf(tShirt);
+    public void findProduct(){
+        WebElement tShirt = browser.findElement(tShirtLocator);
+        tShirt.getText();
+        browser.navigate().back();
+        WebElement cdSucker =browser.findElement(cdSuckerLocator);
+        cdSucker.click();
+        browser.navigate().back();
+        WebElement iPad = browser.findElement(iPadLocator);
+        iPad.click();
+        browser.navigate().back();
     }
-
 
 }
