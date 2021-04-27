@@ -11,8 +11,6 @@ public class Driver {
 
     private static WebDriver driver;
 
-    private Driver() {
-    }
 
     public static WebDriver getDriver() {
         if (driver == null) {
@@ -26,11 +24,9 @@ public class Driver {
             driver.quit();
             driver = null;
         }
-
     }
 
-    private static void createDriver() {
-
+    public static void createDriver() {
         if (Constants.browserName.equalsIgnoreCase("chrome")) {
             System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
             driver = new ChromeDriver();
@@ -52,5 +48,3 @@ public class Driver {
 
     }
 }
-
-

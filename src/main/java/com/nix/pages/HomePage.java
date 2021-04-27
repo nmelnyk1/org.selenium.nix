@@ -1,41 +1,22 @@
 package com.nix.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.List;
 
 public class HomePage extends BasePage {
 
-    private final By tShirtLocator = By.xpath("div[@class='product' and text()='H&M T-Shirt White']");
-    private final By cdSuckerLocator = By.xpath("div[@class='product' and text()='Charli XCX - Sucker CD']");
-    private final By iPadLocator = By.xpath("div[@class='product' and text()='iPad 4 Mini']");
-    private final By productLink = By.xpath(".//div[@class='product']");
-    //private final By productPrice = By.xpath(".//span[@class='price']");
+    private final By productLink = By.xpath(".//a[@class='title']");
 
-    public HomePage(WebDriver browserDriver) {
-        super(browserDriver);
+    private final String productXpathstr = "//a[@class='title' and contains(text(),'%s')]";
+
+
+    public String getProductName(String selectedProductName) {
+        return findElement(By.xpath(String.format(productXpathstr,selectedProductName))).getText();
+    }
+// no default value, but look for some hack (String ...)
+    public void clickProduct(String productName) {
+        findElement(By.xpath(String.format(productXpathstr, productName))).click();
     }
 
 
-    public List<WebElement> getProductNameLinks() {
-        wait.until(ExpectedConditions.elementToBeClickable(productLink));
-        List<WebElement> productLinks = browser.findElements(productLink);
-        return productLinks;
-    }
-    public void findProduct(){
-        WebElement tShirt = browser.findElement(tShirtLocator);
-        tShirt.getText();
-        browser.navigate().back();
-        WebElement cdSucker =browser.findElement(cdSuckerLocator);
-        cdSucker.click();
-        browser.navigate().back();
-        WebElement iPad = browser.findElement(iPadLocator);
-        iPad.click();
-        browser.navigate().back();
-    }
 
 }

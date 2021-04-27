@@ -1,33 +1,32 @@
 package com.nix.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.Arrays;
 
 public class CartPage extends BasePage {
 
+    private final By totalPrice = By.xpath("//tr[@class='total']/td[last()]");
+    private final By productQuatityLocator =By.xpath( "//*[not(@class)]/td[2]");
+    private final By productPerUnit = By.xpath("//*[not(@class)]/td[3]");
 
-    private final By totalQuantity = By.xpath(".//th[text()='Quantity']");
-    private final By checkoutButton = By.xpath("//button[@class='checkout-button']");
+    private final String productNamestr = "//tr/td/a[text()='%s']";
+    //private final String productPricestr = "//span[@class='price' and contains(text(), '%s')]";
 
-    public CartPage(WebDriver browserDriver){
-        super(browserDriver);
-wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutButton));
+    String quantityText = findElement(productQuatityLocator).getText();
+    String perUnitText = findElement(productPerUnit).getText();
+    String[] quantityNum = quantityText.split(" ");
+    String[] perUnitNum = perUnitText.split("");
+    int quantity = Integer.parseInt(Arrays.toString(quantityNum).replaceAll("\\D", ""));
+    int perUnit = Integer.parseInt(Arrays.toString(perUnitNum).replaceAll("\\D", ""));
+
+    public String getProductName(String firstProductName) {
+        return findElement(By.xpath(String.format(productNamestr, firstProductName))).getText();
+    }
+    public int getTotal(int total) {
+        return total = quantity *perUnit;
     }
 
-
-    public int getQuantity() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(totalQuantity));
-        String numProductsLabelText = browser.findElement(totalQuantity).getText();
-        int spaceLocation = numProductsLabelText.indexOf(" ");
-        int numProducts = Integer.parseInt(numProductsLabelText.substring(0, spaceLocation));
-        return numProducts;
-    }
-    public void clickProceedToCheckoutButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
-        WebElement proceedToCheckoutButton = browser.findElement(checkoutButton);
-        proceedToCheckoutButton.click();
-    }
-    }
+}
 

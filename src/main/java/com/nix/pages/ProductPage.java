@@ -1,24 +1,34 @@
 package com.nix.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductPage extends BasePage {
 
     private final By addToCartButton = By.cssSelector(".add-button");
+    private final By backButton = By.cssSelector(".router-link-active");
+    private final HeaderComponent header;
 
 
-    public ProductPage (WebDriver browserDriver){
-        super(browserDriver);
-        browser=browserDriver;
-        wait.until(ExpectedConditions.visibilityOfElementLocated(addToCartButton));
+    public ProductPage() {
+        this.header = new HeaderComponent();
     }
-    public void clickAddToCartButton() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(addToCartButton));
-        WebElement addCartButton = browser.findElement(addToCartButton);
-        addCartButton.click();
+
+    public void clickAddToCartButton(int count) {
+        count = 2;
+        for (int i = 0; i < count; i++) {
+        findElement(addToCartButton).click();
+        }
     }
+
+    public void navigateToCart() {
+        header.openCart();
+    }
+
+    public void clickBackButton()  {
+            findElement(backButton).click();
+
+
+
+    }
+
 }

@@ -3,7 +3,7 @@
 <suite name="Some test">
     <test name="Regression1">
         <classes>
-            <class name="AutomationSuite.Cart">
+            <class name="com.n_ix.automationsuite.Cart">
             </class>
         </classes>
     </test><!--Regression1-->

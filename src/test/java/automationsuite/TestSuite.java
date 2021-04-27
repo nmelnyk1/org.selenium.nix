@@ -1,42 +1,62 @@
 package automationsuite;
 
-import com.nix.pages.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import com.nix.pages.CartPage;
+import com.nix.pages.HomePage;
+import com.nix.pages.ProductPage;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class TestSuite {
+@Test
+public class TestSuite extends BaseTest {
 
-    @Test
-    public void AddToCartTest() {
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-        WebDriver browser = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(browser, 10);
-        browser.manage().window().maximize();
-        browser.get("https://skyronic.github.io/vue-spa/#/");
+    private HomePage homePage;
+    private ProductPage productPage;
+    private CartPage cartPage;
 
-
-        HomePage homePage = new HomePage(browser);
-        homePage.getProductNameLinks();
-        homePage.findProduct();
-
-        ProductPage productPage = new ProductPage(browser);
-        productPage.clickAddToCartButton();
-
-        CartPage cartPage = new CartPage(browser);
-        cartPage.getQuantity();
-        cartPage.clickProceedToCheckoutButton();
-
-        //??
-        /*String actualProduct=;
-        String expectedProduct ="H&M T-Shirt White";
-        Assert.assertEquals();*/
-
-
-        browser.quit();
+    @Test(description = "This test checks BackHome Button", priority = 2)
+    public void BackHomeTest() {
+        homePage = new HomePage();
+        String expected = homePage.getProductName("H&M T-Shirt White");
+        homePage.clickProduct("H&M T-Shirt White");
+        productPage = new ProductPage();
+        productPage.clickAddToCartButton(2);
+        productPage.clickBackButton();
+        Assert.assertTrue(true);
     }
+
+    @Test(description = "This test checks Added Products to a Cart")
+    public void AddToCartTest() {
+        homePage = new HomePage();
+        String expected = homePage.getProductName("H&M T-Shirt White");
+        homePage.clickProduct("H&M T-Shirt White");
+
+        productPage = new ProductPage();
+        productPage.clickAddToCartButton(2);
+        productPage.navigateToCart();
+
+        cartPage = new CartPage();
+        String actual = cartPage.getProductName("H&M T-Shirt White");
+
+        Assert.assertEquals(actual, expected);
+
+    }
+
+    @Test(description = "The test check the TOTAL price", priority = 3)
+    public void CheckTotal() {
+        homePage = new HomePage();
+        String expected = homePage.getProductName("H&M T-Shirt White");
+        homePage.clickProduct("H&M T-Shirt White");
+
+        productPage = new ProductPage();
+        productPage.clickAddToCartButton(2);
+        productPage.navigateToCart();
+
+        cartPage = new CartPage();
+        String actual = cartPage.getProductName("H&M T-Shirt White");
+        cartPage.getTotal(2);
+
+        //Assert.assertEquals(,);
+    }
+
+
 }
