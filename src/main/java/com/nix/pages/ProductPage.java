@@ -14,7 +14,6 @@ public class ProductPage extends BasePage {
     }
 
     public void clickAddToCartButton(int count) {
-        count = 2;
         for (int i = 0; i < count; i++) {
         findElement(addToCartButton).click();
         }

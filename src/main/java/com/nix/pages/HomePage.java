@@ -12,7 +12,7 @@ public class HomePage extends BasePage {
     public String getProductName(String selectedProductName) {
         return findElement(By.xpath(String.format(productXpathstr,selectedProductName))).getText();
     }
-// no default value, but look for some hack (String ...)
+
     public void clickProduct(String productName) {
         findElement(By.xpath(String.format(productXpathstr, productName))).click();
     }

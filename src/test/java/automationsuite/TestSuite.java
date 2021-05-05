@@ -1,10 +1,14 @@
 package automationsuite;
 
+import automationsuite.providers.DPClass;
+import com.nix.core.driver.Driver;
 import com.nix.pages.CartPage;
 import com.nix.pages.HomePage;
 import com.nix.pages.ProductPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static com.nix.core.driver.Constants.PRODUCT1;
 
 @Test
 public class TestSuite extends BaseTest {
@@ -15,27 +19,31 @@ public class TestSuite extends BaseTest {
 
     @Test(description = "This test checks BackHome Button", priority = 2)
     public void BackHomeTest() {
+
         homePage = new HomePage();
         String expected = homePage.getProductName("H&M T-Shirt White");
         homePage.clickProduct("H&M T-Shirt White");
         productPage = new ProductPage();
         productPage.clickAddToCartButton(2);
         productPage.clickBackButton();
-        Assert.assertTrue(true);
+
+        String expectedURL = "https://skyronic.github.io/vue-spa/#/";
+        String currentURL = Driver.getDriver().getCurrentUrl();
+        Assert.assertEquals(expectedURL,currentURL);
     }
 
-    @Test(description = "This test checks Added Products to a Cart")
+    @Test(description = "This test checks Added Products to a Cart",dataProvider = "test-data",dataProviderClass = DPClass.class)
     public void AddToCartTest() {
         homePage = new HomePage();
-        String expected = homePage.getProductName("H&M T-Shirt White");
-        homePage.clickProduct("H&M T-Shirt White");
+        String expected = homePage.getProductName(PRODUCT1);
+        homePage.clickProduct(PRODUCT1);
 
         productPage = new ProductPage();
         productPage.clickAddToCartButton(2);
         productPage.navigateToCart();
 
         cartPage = new CartPage();
-        String actual = cartPage.getProductName("H&M T-Shirt White");
+        String actual = cartPage.getProductNameCart(PRODUCT1);
 
         Assert.assertEquals(actual, expected);
 
@@ -43,19 +51,21 @@ public class TestSuite extends BaseTest {
 
     @Test(description = "The test check the TOTAL price", priority = 3)
     public void CheckTotal() {
-        homePage = new HomePage();
-        String expected = homePage.getProductName("H&M T-Shirt White");
-        homePage.clickProduct("H&M T-Shirt White");
+        int addToCartCount = 2;
+        double price = Double.parseDouble(homePage.getProductName(PRODUCT1));
+        homePage.clickProduct(PRODUCT1);
+
 
         productPage = new ProductPage();
-        productPage.clickAddToCartButton(2);
+        productPage.clickAddToCartButton(addToCartCount);
         productPage.navigateToCart();
 
         cartPage = new CartPage();
-        String actual = cartPage.getProductName("H&M T-Shirt White");
-        cartPage.getTotal(2);
 
-        //Assert.assertEquals(,);
+        double actualTotal = cartPage.getTotalPrice();
+        double expectedTotal = addToCartCount * price;
+
+        Assert.assertEquals(actualTotal,expectedTotal);
     }
 
 
